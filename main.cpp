@@ -2,7 +2,7 @@
 #include<string>
 using namespace std;
 
-int maim () {
+int main () {
     cout << "Hello world!";
 
 }
