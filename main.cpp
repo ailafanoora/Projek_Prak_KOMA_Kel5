@@ -38,6 +38,15 @@ int cariTermurah(Kegiatan daftar[], int jumlah) {
     }
     return murah;
 }
+// 4. Hitung rata-rata biaya seluruh kegiatan
+int hitungRataRata(Kegiatan daftar[], int jumlah) {
+    if (jumlah == 0) return 0;
+    int total = 0;
+    for (int i = 0; i < jumlah; i++) {
+        total += daftar[i].biaya;
+    }
+    return total / jumlah;
+}
 // 5. Fungsi Rekursif: Menghitung total biaya dari N kegiatan yang diikuti
 int hitungTotalBiaya(Kegiatan diikuti[], int n) {
     if (n <= 0) {
