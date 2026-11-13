@@ -159,11 +159,51 @@ void tampilData(Kegiatan daftar[], int jumlah) {
         cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t" << daftar[i].status << endl;
     }
 }
+
+// 11. Fungsi untuk search ID kegiatan yang diikuti ada dan sesuai dengan ID list kegiatan tersedia
+bool cekIDdiikuti(Kegiatan daftar[], Kegiatan daftarDiikuti[], int jumlahDiikuti, int jumlah, string IDdiikuti, int indexDiikuti) {
+    bool IDsesuai = false;
+        for(int j = 0; j < jumlah; j++) {
+            if (IDdiikuti == daftar[j].id) {
+                daftarDiikuti[indexDiikuti] = daftar[j];
+                return IDsesuai = true;
+            }
+    } 
+    return IDsesuai = false;
+}
+
+// 12. Fungsi untuk menambah kegiatan yang diikuti (input ID kegiatan untuk mempermudah penulisan serta menghindari typo atau ketidaksesuaian penulisan)
+void tambahDiikuti(Kegiatan daftar[], Kegiatan daftarDiikuti[], int &jumlahDiikuti, int jumlah, string IDdiikuti) {
+    cout << "Masukkan jumlah kegiatan yang akan diikuti: ";
+    cin >> jumlahDiikuti;
+    for (int i = 0; i < jumlahDiikuti; i++) {
+        cout << "Masukkan ID kegiatan ke-" << i+1 << " : ";
+        cin >> IDdiikuti;
+        bool IDsesuai = cekIDdiikuti(daftar, daftarDiikuti, jumlahDiikuti, jumlah, IDdiikuti, i);
+        if (IDsesuai = false) {
+            cout << "Tidak ditemukan kegiatan dengan ID: " << IDdiikuti << endl;
+            cout << "Harap ulangi lagi." << endl;
+            cout << "Masukkan ID kegiatan ke-" << i+1 << " : ";
+            cin >> IDdiikuti;
+        }
+    }
+}
+
+// 13. Fungsi untuk menampilkan data kegiatan yang diikuti
+void tampilDiikuti(Kegiatan daftarDiikuti[], int jumlahDiikuti) {
+    cout << "========== LIST KEGIATAN YANG DIIKUTI ==========" << endl;
+     cout << "ID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  " << endl;
+    for (int i = 0; i < jumlahDiikuti; i++) {
+        cout << daftarDiikuti[i].id << "\t" << daftarDiikuti[i].nama << "\t" << daftarDiikuti[i].kategori << "\t" << daftarDiikuti[i].biaya << "\t" << daftarDiikuti[i].sisaHari << "\t" << daftarDiikuti[i].status << endl;
+    }
+}
+
 // LANJUT ANGGOTA 4 (SORTING & SEARCHING)
 // Tugas: Bikin fungsi urutkan kegiatan (biaya/sisaHari) & cari kegiatan
 //        (budget/nama/kategori) di bawah baris ini.
 // =========================================================================
 // =========================================================================
+
 // LANJUT ANGGOTA 1 (COORDINATOR / MAIN MENU)
 // Tugas: Bikin tampilan Menu Utama (1-4) & panggil semua fungsi di atas.
 // =========================================================================
@@ -202,8 +242,12 @@ int main() {// Inisialisasi array di int main dengan ukuran 100 sebagai penampun
 
     Kegiatan daftarDiikuti[100];
     int jumlahDiikuti = 0;
+    string IDdiikuti;
     
     int pilihan = 0;
+    int opsiListKegiatan = 0;
+    int opsiSort = 0;
+    
     do {
         clearTerminal();
         mainmenu();
@@ -216,23 +260,75 @@ int main() {// Inisialisasi array di int main dengan ukuran 100 sebagai penampun
         cin.ignore();
 
         switch (pilihan){
+            case 0: 
+            cout << "Program berhenti." << endl;
+            break;
             case 1:
             clearTerminal();
-            tambahKegiatan(daftar, jumlah);           
+            tambahKegiatan(daftar, jumlah);    
+            IDGenerator(daftar, seminar, kompetisi, jumlah);
+            cekStatus(daftar, jumlah);
             break;
-            //case 2:
-            //listKegiatan();             break;
-            //case 3:
-            //kegiatanDiikuti();          break;
+            
+            case 2:
+            tampilData(daftar, jumlah);
+            cout << "Jumlah kegiatan: " << jumlah << endl;
+            cout << "Rata-rata biaya: " << hitungRataRata(daftar, jumlah) << endl;
+            cout << "Biaya termahal: " << cariTermahal(daftar, jumlah) << endl;
+            cout << "Biaya termurah: " << cariTermurah(daftar, jumlah) << endl;
+            cout << endl;
+            do {
+                cout << "Pilih Opsi List Kegiatan: " << endl;
+                cout << "1. Sort Kegiatan\n";
+                cout << "2. Tambahkan Kegiatan yang Diikuti\n";
+                cout << "3. Kembali ke Menu Utama\n";
+                cin >> opsiListKegiatan;
+                switch(opsiListKegiatan) {
+                    case 3: cout << "Kembali ke menu utama" << endl;
+                    break;
+                    case 1: 
+                    cout << "Pilih Opsi Sort: " << endl;
+                    cout << "1. Biaya (Ascending)\n";
+                    cout << "2. Biaya (Desecending)\n";
+                    cout << "3. Sisa Hari (Ascending)\n";
+                    cout << "4. Sisa Hari (Descending)\n";
+                    cout << "5. Kembali ke Menu List Kegiatan\n";
+                    cout << "6. Kembali ke Menu Utama\n";
+                    cin >> opsiSort;
+                    do {
+                        switch(opsiSort) {
+                            case 6: cout << "Kembali ke menu utama" << endl;
+                            break;
+                            case 5: cout << "Kembali ke Menu List Kegiatan" << endl;
+                            break;
+                            // case 1: Panggil fungsi sortBiayaAscend(); 
+                            // case 2: Panggil fungsi sortBiayaDescend(); 
+                            // case 3: Panggil fungsi sortSisaHariAscend(); 
+                            // case 4: Panggil fungsi sortSisaHariDescend(); 
+                            default: cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
+                        }
+                    } while (opsiSort != 5);
+                    break;
+                    
+                    case 2: tambahDiikuti(daftar, daftarDiikuti, jumlahDiikuti, jumlah, IDdiikuti);
+                    break; 
+                    
+                    default: cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
+                }
+            } while (opsiListKegiatan != 3 && opsiSort != 6);
+            break;
+            
+            case 3:
+            tampilDiikuti(daftarDiikuti, jumlahDiikuti);
+            cout << "Jumlah kegiatan yang diiikuti: " << jumlahDiikuti << endl;
+            cout << "Total biaya kegiatan yang diikuti: " << hitungTotalBiaya(daftarDiikuti, jumlahDiikuti) << endl;
+            break;
+            
             //case 4:
             //cariKegiatan();             break;
+            default: cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
         }
     } while (pilihan != 0);
-    
-    tambahKegiatan(daftar, jumlah); // Panggil fungsi input data kegiatan
-    IDGenerator(daftar, seminar, kompetisi, jumlah); // Panggil fungsi untuk generate ID kegiatan;
-    cekStatus(daftar, jumlah); // Panggil fungsi untuk menenrukan status kegiatan
-    tampilData(daftar, jumlah); // Panggil fungsi tampilkan list data
     
     
 // =========================================================================
