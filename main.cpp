@@ -167,8 +167,27 @@ void tampilData(Kegiatan daftar[], int jumlah) {
 // LANJUT ANGGOTA 1 (COORDINATOR / MAIN MENU)
 // Tugas: Bikin tampilan Menu Utama (1-4) & panggil semua fungsi di atas.
 // =========================================================================
-int main() {
-    // Inisialisasi array di int main dengan ukuran 100 sebagai penampung awal
+void mainmenu(){
+        cout << "==================================================\n";
+        cout << "        CAMPUS EVENT & STUDENT ACTIVITY FINDER    \n";
+        cout << "==================================================\n";
+        cout << "1. Tambahkan Kegiatan\n";
+        cout << "2. List Kegiatan Tersedia\n";
+        cout << "3. List Kegiatan Yang Diikuti\n";
+        cout << "4. Cari Kegiatan\n";
+        cout << "0. Exit\n";
+        cout << "==================================================\n";
+        cout << "Pilih Menu: ";
+}
+
+void clearTerminal() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+int main() {// Inisialisasi array di int main dengan ukuran 100 sebagai penampung awal
     Kegiatan daftar[100];
     int jumlah = 0;
     
@@ -183,7 +202,33 @@ int main() {
 
     Kegiatan daftarDiikuti[100];
     int jumlahDiikuti = 0;
+    
+    int pilihan = 0;
+    do {
+        clearTerminal();
+        mainmenu();
 
+        if (!(cin >> pilihan)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            continue;
+        }
+        cin.ignore();
+
+        switch (pilihan){
+            case 1:
+            clearTerminal();
+            tambahKegiatan(daftar, jumlah);           
+            break;
+            //case 2:
+            //listKegiatan();             break;
+            //case 3:
+            //kegiatanDiikuti();          break;
+            //case 4:
+            //cariKegiatan();             break;
+        }
+    } while (pilihan != 0);
+    
     tambahKegiatan(daftar, jumlah); // Panggil fungsi input data kegiatan
     IDGenerator(daftar, seminar, kompetisi, jumlah); // Panggil fungsi untuk generate ID kegiatan;
     cekStatus(daftar, jumlah); // Panggil fungsi untuk menenrukan status kegiatan
