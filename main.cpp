@@ -204,6 +204,225 @@ void tampilDiikuti(Kegiatan daftarDiikuti[], int jumlahDiikuti) {
 // =========================================================================
 // =========================================================================
 
+// 14. fungsi untuk mengurutkan biaya dari yang paling murah (ascending) menggunakan bubble sort
+void urutkanBiayaAsc(Kegiatan daftar[], int jumlah) {
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (daftar[j].biaya > daftar[j + 1].biaya) {
+                Kegiatan temp = daftar[j];
+                daftar[j] = daftar[j + 1];
+                daftar[j + 1] = temp;
+            }
+        }
+    }
+    cout << "berhasil diurutkan dari biaya termurah\n";
+}
+
+// 15. fungsi untuk mengurutkan biaya dari yang paling mahal (descending) menggunakan bubble sort
+void urutkanBiayaDesc(Kegiatan daftar[], int jumlah) {
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (daftar[j].biaya < daftar[j + 1].biaya) {
+                Kegiatan temp = daftar[j];
+                daftar[j] = daftar[j + 1];
+                daftar[j + 1] = temp;
+            }
+        }
+    }
+    cout << "berhasil diurutkan dari biaya termahal\n";
+}
+
+// 16. fungsi untuk mengurutkan sisa hari terdekat (ascending) menggunakan bubble sort
+void urutkanSisaHariAsc(Kegiatan daftar[], int jumlah) {
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (daftar[j].sisaHari > daftar[j + 1].sisaHari) {
+                Kegiatan temp = daftar[j];
+                daftar[j] = daftar[j + 1];
+                daftar[j + 1] = temp;
+            }
+        }
+    }
+    cout << "berhasil diurutkan dari sisa hari terdekat\n";
+}
+
+// 17. fungsi untuk mengurutkan sisa hari terlama (descending) menggunakan bubble sort
+void urutkanSisaHariDesc(Kegiatan daftar[], int jumlah) {
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if (daftar[j].sisaHari < daftar[j + 1].sisaHari) {
+                Kegiatan temp = daftar[j];
+                daftar[j] = daftar[j + 1];
+                daftar[j + 1] = temp;
+            }
+        }
+    }
+    cout << "berhasil diurutkan dari sisa hari terlama\n";
+}
+
+// 18. fungsi untuk cari rekomendasi kegiatan yang sesuai kategori pilihan pengguna dan tidak melebihi budget
+void cariKegiatan(Kegiatan daftar[], int jumlah) {
+    int budgetUser;
+    cout << "\n rekomendasi kegiatan \n";
+    cout << "Masukkan batas budget kamu: Rp ";
+    cin >> budgetUser;
+
+    int pilihCari;
+    cout << "\nMau cari berdasarkan apa?\n";
+    cout << "1. Nama kegiatan\n";
+    cout << "2. Kategori kegiatan\n";
+    cout << "Masukkan pilihan (1-2): ";
+    cin >> pilihCari;
+
+    cout << "\nID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  \n";
+
+    // cari berdasarkan nama menggunakan sequential search
+    if (pilihCari == 1) {
+        string cariNama;
+        cin.ignore(); 
+        cout << "masukkan nama kegiatan yang dicari: ";
+        getline(cin, cariNama);
+
+        bool ketemu = false;
+        for (int i = 0; i < jumlah; i++) {
+            if (daftar[i].nama == cariNama && daftar[i].biaya <= budgetUser) {
+                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+                ketemu = true;
+            }
+        }
+        if (ketemu == false) {
+            cout << "maaf, kegiatan tidak ditemukan atau melebihi budget\n";
+        }
+    }
+    
+    // cari berdasarkan kategori menggunakan sequential search
+    else if (pilihCari == 2) {
+        string cariKategori;
+        cout << "Masukkan kategori (seminar/kompetisi/dll): ";
+        cin >> cariKategori;
+
+        bool ketemu = false;
+        for (int i = 0; i < jumlah; i++) {
+            if (daftar[i].kategori == cariKategori && daftar[i].biaya <= budgetUser) {
+                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+                ketemu = true;
+            }
+        }
+        if (ketemu == false) {
+            cout << "Maaf, kategori tidak ditemukan atau melebihi budget\n";
+        }
+    }
+}
+    
+
+// 19. Fungsi untuk cari berdasarkan ID, Nama, atau Kategori saja
+void cariBerdasarkanIdentitas(Kegiatan daftar[], int jumlah) {
+    if (jumlah == 0) {
+        cout << "\nBelum ada data kegiatan yang tersimpan\n";
+        return;
+    }
+
+    int pilihCari;
+    cout << "\n cari berdasarkan ID, nama, atau kategori \n";
+    cout << "1. Cari Berdasarkan ID Kegiatan\n";
+    cout << "2. Cari Berdasarkan Nama Kegiatan\n";
+    cout << "3. Cari Berdasarkan Kategori\n";
+    cout << "pilih (1-3): ";
+    cin >> pilihCari;
+
+    cout << "\nID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  \n";
+
+    if (pilihCari == 1) {
+        string cariId;
+        cout << "Masukkan ID kegiatan yang dicari (contoh: 01001): ";
+        cin >> cariId;
+
+        bool ketemu = false;
+        for (int i = 0; i < jumlah; i++) {
+            if (daftar[i].id == cariId) {
+                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+                ketemu = true;
+            }
+        }
+        if (!ketemu) cout << "Maaf, kegiatan dengan ID tersebut tidak ditemukan\n";
+
+    } else if (pilihCari == 2) {
+        string cariNama;
+        cin.ignore(); 
+        cout << "Masukkan nama kegiatan yang dicari: ";
+        getline(cin, cariNama);
+
+        bool ketemu = false;
+        for (int i = 0; i < jumlah; i++) {
+            if (daftar[i].nama == cariNama) {
+                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+                ketemu = true;
+            }
+        }
+        if (!ketemu) cout << "Maaf, kegiatan dengan nama tersebut tidak ditemukan\n";
+
+    } else if (pilihCari == 3) {
+        string cariKategori;
+        cout << "Masukkan kategori yang dicari (seminar/kompetisi): ";
+        cin >> cariKategori;
+
+        bool ketemu = false;
+        for (int i = 0; i < jumlah; i++) {
+            if (daftar[i].kategori == cariKategori) {
+                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+                ketemu = true;
+            }
+        }
+        if (!ketemu) cout << "Maaf, tidak ada kegiatan dengan kategori tersebut\n";
+    } else {
+        cout << "Pilihan tidak valid!\n";
+    }
+}
+
+// 20. Fungsi untuk Menampilkan Kegiatan Berdasarkan Budget Pengguna
+void cariBerdasarkanBudget(Kegiatan daftar[], int jumlah) {
+    if (jumlah == 0) {
+        cout << "\nBelum ada data kegiatan yang tersimpan\n";
+        return;
+    }
+    int budgetUser;
+    cout << "\n kegiatan berdasarkan budget pengguna \n";
+    cout << "Masukkan batas maksimal budget kamu: Rp ";
+    cin >> budgetUser;
+
+    cout << "\nID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  \n";
+    bool ketemu = false;
+    for (int i = 0; i < jumlah; i++) {
+        if (daftar[i].biaya <= budgetUser) {
+            cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+            ketemu = true;
+        }
+    }
+    if (!ketemu) {
+        cout << "Maaf, tidak ada kegiatan yang biayanya masuk ke dalam budget kamu\n";
+    }
+}
+
+void menuCariUtama(Kegiatan daftar[], int jumlah) {
+    int pilihanMenuCari;
+    cout << "\n  MENU PENCARIAN \n";
+    cout << "1. cari Berdasarkan ID, Nama, atau Kategori\n";
+    cout << "2. cari berdasarkan Budget Pengguna\n";
+    cout << "3. rekomendasi kegiatan yang sesuai kategori pilihan pengguna dan tidak melebihi budget\n";
+    cout << "Pilih menu (1-3): ";
+    cin >> pilihanMenuCari;
+
+    if (pilihanMenuCari == 1) {
+        cariBerdasarkanIdentitas(daftar, jumlah);
+    } else if (pilihanMenuCari == 2) {
+        cariBerdasarkanBudget(daftar, jumlah);
+    } else if (pilihanMenuCari == 3) {
+        cariKegiatan(daftar, jumlah); 
+    } else {
+        cout << "Pilihan tidak valid!\n";
+    }
+}
+
 // LANJUT ANGGOTA 1 (COORDINATOR / MAIN MENU)
 // Tugas: Bikin tampilan Menu Utama (1-4) & panggil semua fungsi di atas.
 // =========================================================================
