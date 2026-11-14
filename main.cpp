@@ -69,9 +69,16 @@ int hitungTotalBiaya(Kegiatan diikuti[], int n) {
 
 // 6. Fungsi untuk input dan menambah kegiatan, meliputi jenis, nama, biaya, sisa hari
 void tambahKegiatan(Kegiatan daftar[], int &jumlah) {
+    int tambahan;
     cout << "Masukkan jumlah kegiatan yang akan ditambahkan: ";
-    cin >> jumlah;
-    for (int i = 0; i < jumlah; i++) {
+    cin >> tambahan;
+    
+    if (tambahan > 100) {
+        cout << "Kapasitas penuh! Maksimal hanya bisa menambah " << (100 - jumlah) << " kegiatan lagi.\n";
+        return;
+    }
+    
+    for (int i = jumlah; i < jumlah + tambahan; i++) {
         cout << "Masukkan jenis kegiatan (seminar/kompetisi) (gunakan huruf kecil) ke-" << i+1 << " : ";
         cin >> daftar[i].kategori;
         cin.ignore();
@@ -79,20 +86,21 @@ void tambahKegiatan(Kegiatan daftar[], int &jumlah) {
         getline(cin, daftar[i].nama);
         cout << "Masukkan biaya kegiatan ke-" << i+1 << " : ";
         cin >> daftar[i].biaya;
-        if (daftar[i].biaya < 0) {
+        while (daftar[i].biaya < 0) {
             cout << "Biaya tidak boleh negatif. Harap ulangi lagi" << endl;
             cout << "Masukkan biaya kegiatan ke-" << i+1 << " : ";
             cin >> daftar[i].biaya;
         }
         cout << "Masukkan sisa hari kegiatan ke-" << i+1 << " : ";
         cin >> daftar[i].sisaHari;
-        if (daftar[i].sisaHari < 0) {
+        while (daftar[i].sisaHari < 0) {
             cout << "Sisa hari tidak boleh negatif. Harap ulangi lagi" << endl;
             cout << "Masukkan sisa hari kegiatan ke-" << i+1 << " : ";
             cin >> daftar[i].sisaHari;
         }
         cout << endl;
     }
+    jumlah += tambahan;
 }
 
 // 7. Fungsi untuk menghitung jumlah kegiatan seminar
@@ -217,19 +225,33 @@ bool cekIDdiikuti(Kegiatan daftar[], Kegiatan daftarDiikuti[], int jumlahDiikuti
 
 // 12. Fungsi untuk menambah kegiatan yang diikuti (input ID kegiatan untuk mempermudah penulisan serta menghindari typo atau ketidaksesuaian penulisan)
 void tambahDiikuti(Kegiatan daftar[], Kegiatan daftarDiikuti[], int &jumlahDiikuti, int jumlah, string IDdiikuti) {
+    if (jumlah == 0) {
+        cout << "Belum ada kegiatan tersedia untuk diikuti.\n";
+        return;
+    }
+    
+    int tambahan;
     cout << "Masukkan jumlah kegiatan yang akan diikuti: ";
-    cin >> jumlahDiikuti;
-    for (int i = 0; i < jumlahDiikuti; i++) {
+    cin >> tambahan;
+
+    if (tambahan > jumlah) {
+        cout << "Kapasitas penuh! Maksimal hanya bisa menambah " << (jumlah - jumlahDiikuti) << " kegiatan yang dapat diikuti lagi.\n";
+        return;
+    }
+    for (int i = jumlahDiikuti; i < jumlahDiikuti + tambahan; i++) {
         cout << "Masukkan ID kegiatan ke-" << i+1 << " : ";
         cin >> IDdiikuti;
         bool IDsesuai = cekIDdiikuti(daftar, daftarDiikuti, jumlahDiikuti, jumlah, IDdiikuti, i);
-        if (IDsesuai == false) {
+        while (IDsesuai == false) {
             cout << "Tidak ditemukan kegiatan dengan ID: " << IDdiikuti << endl;
             cout << "Harap ulangi lagi." << endl;
             cout << "Masukkan ID kegiatan ke-" << i+1 << " : ";
             cin >> IDdiikuti;
         }
     }
+
+    jumlahDiikuti += tambahan; 
+    cout << "Berhasil menambahkan " << tambahan << " kegiatan ke daftar diikuti!\n";
 }
 
 // 13. Fungsi untuk menampilkan data kegiatan yang diikuti
