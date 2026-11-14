@@ -247,6 +247,7 @@ void tambahDiikuti(Kegiatan daftar[], Kegiatan daftarDiikuti[], int &jumlahDiiku
             cout << "Harap ulangi lagi." << endl;
             cout << "Masukkan ID kegiatan ke-" << i+1 << " : ";
             cin >> IDdiikuti;
+            IDsesuai = cekIDdiikuti(daftar, daftarDiikuti, jumlahDiikuti, jumlah, IDdiikuti, i);
         }
     }
 
