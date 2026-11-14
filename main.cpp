@@ -446,18 +446,12 @@ void clearTerminal() {
         system("clear");
     #endif
 }
-int main() {// Inisialisasi array di int main dengan ukuran 100 sebagai penampung awal
+int main() {
     Kegiatan daftar[100];
     int jumlah = 0;
     
     Kegiatan seminar[100];
-    int jumlahSeminar = 0;
-    
     Kegiatan kompetisi[100];
-    int jumlahKompetisi = 0;
-    
-    Kegiatan daftarTersedia[100];
-    int jumlahTersedia = 0;
 
     Kegiatan daftarDiikuti[100];
     int jumlahDiikuti = 0;
@@ -478,82 +472,99 @@ int main() {// Inisialisasi array di int main dengan ukuran 100 sebagai penampun
         }
         cin.ignore();
 
-        switch (pilihan){
+        switch (pilihan) {
             case 0: 
-            cout << "Program berhenti." << endl;
-            break;
+                cout << "Program berhenti." << endl;
+                break;
+
             case 1:
-            clearTerminal();
-            tambahKegiatan(daftar, jumlah);    
-            IDGenerator(daftar, seminar, kompetisi, jumlah);
-            cekStatus(daftar, jumlah);
-            break;
+                clearTerminal();
+                tambahKegiatan(daftar, jumlah);    
+                IDGenerator(daftar, seminar, kompetisi, jumlah);
+                cekStatus(daftar, jumlah);
+                cout << "Tekan Enter untuk kembali ke menu...";
+                cin.ignore();
+                cin.get();
+                break;
             
             case 2:
-            tampilData(daftar, jumlah);
-            cout << "Jumlah kegiatan: " << jumlah << endl;
-            cout << "Rata-rata biaya: " << hitungRataRata(daftar, jumlah) << endl;
-            cout << "Biaya termahal: " << cariTermahal(daftar, jumlah) << endl;
-            cout << "Biaya termurah: " << cariTermurah(daftar, jumlah) << endl;
-            cout << endl;
-            do {
-                cout << "Pilih Opsi List Kegiatan: " << endl;
-                cout << "1. Sort Kegiatan\n";
-                cout << "2. Tambahkan Kegiatan yang Diikuti\n";
-                cout << "3. Kembali ke Menu Utama\n";
-                cin >> opsiListKegiatan;
-                switch(opsiListKegiatan) {
-                    case 3: cout << "Kembali ke menu utama" << endl;
-                    break;
-                    case 1: 
-                    cout << "Pilih Opsi Sort: " << endl;
-                    cout << "1. Biaya (Ascending)\n";
-                    cout << "2. Biaya (Desecending)\n";
-                    cout << "3. Sisa Hari (Ascending)\n";
-                    cout << "4. Sisa Hari (Descending)\n";
-                    cout << "5. Kembali ke Menu List Kegiatan\n";
-                    cout << "6. Kembali ke Menu Utama\n";
-                    cin >> opsiSort;
-                    do {
-                        switch(opsiSort) {
-                            case 6: cout << "Kembali ke menu utama" << endl;
+                do {
+                    clearTerminal();
+                    tampilData(daftar, jumlah);
+                    cout << "Jumlah kegiatan : " << jumlah << endl;
+                    cout << "Rata-rata biaya : Rp " << hitungRataRata(daftar, jumlah) << endl;
+                    cout << "Biaya termahal  : Rp " << cariTermahal(daftar, jumlah) << endl;
+                    cout << "Biaya termurah  : Rp " << cariTermurah(daftar, jumlah) << endl;
+                    cout << endl;
+
+                    cout << "Pilih Opsi List Kegiatan: " << endl;
+                    cout << "1. Sort Kegiatan\n";
+                    cout << "2. Tambahkan Kegiatan yang Diikuti\n";
+                    cout << "3. Kembali ke Menu Utama\n";
+                    cout << "Pilih: ";
+                    cin >> opsiListKegiatan;
+
+                    switch(opsiListKegiatan) {
+                        case 1: 
+                            do {
+                                cout << "\nPilih Opsi Sort: " << endl;
+                                cout << "1. Biaya (Ascending)\n";
+                                cout << "2. Biaya (Descending)\n";
+                                cout << "3. Sisa Hari (Ascending)\n";
+                                cout << "4. Sisa Hari (Descending)\n";
+                                cout << "5. Kembali ke Menu List Kegiatan\n";
+                                cout << "6. Kembali ke Menu Utama\n";
+                                cout << "Pilih: ";
+                                cin >> opsiSort;
+
+                                switch(opsiSort) {
+                                    case 1: urutkanBiayaAsc(daftar, jumlah); break;
+                                    case 2: urutkanBiayaDesc(daftar, jumlah); break;
+                                    case 3: urutkanSisaHariAsc(daftar, jumlah); break;
+                                    case 4: urutkanSisaHariDesc(daftar, jumlah); break;
+                                    case 5: cout << "Kembali ke Menu List Kegiatan\n"; break;
+                                    case 6: cout << "Kembali ke Menu Utama\n"; break;
+                                    default: cout << "Pilihan tidak valid.\n";
+                                }
+                            } while (opsiSort != 5 && opsiSort != 6);
                             break;
-                            case 5: cout << "Kembali ke Menu List Kegiatan" << endl;
+                        
+                        case 2: 
+                            tambahDiikuti(daftar, daftarDiikuti, jumlahDiikuti, jumlah, IDdiikuti);
+                            break; 
+
+                        case 3: 
+                            cout << "Kembali ke menu utama" << endl;
                             break;
-                            // case 1: Panggil fungsi sortBiayaAscend(); 
-                            // case 2: Panggil fungsi sortBiayaDescend(); 
-                            // case 3: Panggil fungsi sortSisaHariAscend(); 
-                            // case 4: Panggil fungsi sortSisaHariDescend(); 
-                            default: cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
-                        }
-                    } while (opsiSort != 5);
-                    break;
-                    
-                    case 2: tambahDiikuti(daftar, daftarDiikuti, jumlahDiikuti, jumlah, IDdiikuti);
-                    break; 
-                    
-                    default: cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
-                }
-            } while (opsiListKegiatan != 3 && opsiSort != 6);
-            break;
+                        
+                        default: 
+                            cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
+                    }
+                } while (opsiListKegiatan != 3 && opsiSort != 6);
+                opsiSort = 0; // Reset opsiSort agar tidak nyangkut saat masuk Menu 2 lagi
+                break;
             
             case 3:
-            tampilDiikuti(daftarDiikuti, jumlahDiikuti);
-            cout << "Jumlah kegiatan yang diiikuti: " << jumlahDiikuti << endl;
-            cout << "Total biaya kegiatan yang diikuti: " << hitungTotalBiaya(daftarDiikuti, jumlahDiikuti) << endl;
-            break;
+                clearTerminal();
+                tampilDiikuti(daftarDiikuti, jumlahDiikuti);
+                cout << "Jumlah kegiatan yang diikuti     : " << jumlahDiikuti << endl;
+                cout << "Total biaya kegiatan yang diikuti: Rp " << hitungTotalBiaya(daftarDiikuti, jumlahDiikuti) << endl;
+                cout << "\nTekan Enter untuk kembali ke menu...";
+                cin.get();
+                break;
             
-            //case 4:
-            //cariKegiatan();             break;
-            default: cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
+            case 4:
+                clearTerminal();
+                menuCariUtama(daftar, jumlah);
+                cout << "\nTekan Enter untuk kembali ke menu...";
+                cin.ignore();
+                cin.get();
+                break;
+
+            default: 
+                cout << "Pilihan tidak valid. Harap ulangi lagi" << endl;
         }
     } while (pilihan != 0);
     
-    
-// =========================================================================
-// LANJUTIN KODENYA DI BAWAH INI OLEH ANGGOTA 1 (COORDINATOR)
-// Tugas: Bikin tampilan Main Menu (pilihan 1-4), perulangan menu, dan 
-//        panggil semua fungsi milik Anggota 2, Anggota 3, & Anggota 4 di sini.
-// =========================================================================
     return 0;
 }
