@@ -1,5 +1,6 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
+#include <iomanip>
 using namespace std;
 
 struct Kegiatan {
@@ -151,13 +152,55 @@ void IDGenerator(Kegiatan daftar[], Kegiatan seminar[], Kegiatan kompetisi[], in
     }
 }
 
+// Untuk Menengahkan Teks Berdasarkan Total Lebar
+string tengahkanTeks(string teks, int lebarKolom) {
+    int panjangTeks = teks.length();
+    
+    // Jika teks lebih panjang atau sama dengan lebar kolom, langsung kembalikan teksnya
+    if (panjangTeks >= lebarKolom) {
+        return teks;
+    }
+    
+    // Hitung spasi kiri dan kanan
+    int sisaSpasi   = lebarKolom - panjangTeks;
+    int spasiKiri   = sisaSpasi / 2;
+    int spasiKanan  = sisaSpasi - spasiKiri;
+    
+    return string(spasiKiri, ' ') + teks + string(spasiKanan, ' ');
+}
+
 // 10. Fungsi untuk menampilkan data kegiatan
 void tampilData(Kegiatan daftar[], int jumlah) {
-    cout << "========== LIST KEGIATAN TERSEDIA ==========" << endl;
-     cout << "ID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  " << endl;
-    for (int i = 0; i < jumlah; i++) {
-        cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t" << daftar[i].status << endl;
+    cout << string(78, '=') << endl;
+    cout << tengahkanTeks("LIST KEGIATAN", 76) << endl;
+    cout << string(78, '=') << endl;
+    //cout << "ID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  " << endl;
+    // Pembuatan Tabel
+    cout << left
+         << setw(7) << "ID"
+         << setw(25) << "Nama Kegiatan"
+         << setw(15) << "Kategori"
+         << setw(10) << "Biaya"
+         << setw(10) << "Sisa Hari"
+         << setw(11) << "Status" << endl;
+    
+    cout << string(78, '-') << endl;
+
+    if (jumlah == 0) {
+        cout << tengahkanTeks("Data Kegiatan Masih Kosong", 76) << endl;
     }
+
+    for (int i = 0; i < jumlah; i++) {
+        //cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t" << daftar[i].status << endl;
+        cout << left
+             << setw(7) << daftar[i].id
+             << setw(25) << daftar[i].nama
+             << setw(15) << daftar[i].kategori
+             << setw(10) << daftar[i].biaya
+             << setw(10) << daftar[i].sisaHari
+             << setw(11) << daftar[i].status << endl;
+    }
+    cout << string(78, '-') << endl;
 }
 
 // 11. Fungsi untuk search ID kegiatan yang diikuti ada dan sesuai dengan ID list kegiatan tersedia
@@ -191,11 +234,40 @@ void tambahDiikuti(Kegiatan daftar[], Kegiatan daftarDiikuti[], int &jumlahDiiku
 
 // 13. Fungsi untuk menampilkan data kegiatan yang diikuti
 void tampilDiikuti(Kegiatan daftarDiikuti[], int jumlahDiikuti) {
-    cout << "========== LIST KEGIATAN YANG DIIKUTI ==========" << endl;
-     cout << "ID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  " << endl;
-    for (int i = 0; i < jumlahDiikuti; i++) {
-        cout << daftarDiikuti[i].id << "\t" << daftarDiikuti[i].nama << "\t" << daftarDiikuti[i].kategori << "\t" << daftarDiikuti[i].biaya << "\t" << daftarDiikuti[i].sisaHari << "\t" << daftarDiikuti[i].status << endl;
+    cout << string(78, '=') << endl;
+    cout << tengahkanTeks("KEGIATAN DIIKUTI", 76) << endl;
+    cout << string(78, '=') << endl;
+    //cout << "============= LIST KEGIATAN DIIKUTI ==============" << endl;
+    //cout << "ID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  " << endl;
+
+    cout << left
+         << setw(7) << "ID"
+         << setw(25) << "Nama Kegiatan"
+         << setw(15) << "Kategori"
+         << setw(10) << "Biaya"
+         << setw(10) << "Sisa Hari"
+         << setw(11) << "Status" << endl;
+
+    cout << string(78, '-') << endl;
+
+    if (jumlahDiikuti == 0){
+        cout << tengahkanTeks("Belum Ada Yang Diikuti", 76) << endl;
     }
+
+    for (int i = 0; i < jumlahDiikuti; i++) {
+        cout << left
+             << setw(7) << daftarDiikuti[i].id
+             << setw(25) << daftarDiikuti[i].nama
+             << setw(15) << daftarDiikuti[i].kategori
+             << setw(10) << daftarDiikuti[i].biaya
+             << setw(10) << daftarDiikuti[i].sisaHari
+             << setw(11) << daftarDiikuti[i].status << endl;
+    }
+
+    cout << string(78, '-') << endl;
+    //for (int i = 0; i < jumlahDiikuti; i++) {
+        //cout << daftarDiikuti[i].id << "\t" << daftarDiikuti[i].nama << "\t" << daftarDiikuti[i].kategori << "\t" << daftarDiikuti[i].biaya << "\t" << daftarDiikuti[i].sisaHari << "\t" << daftarDiikuti[i].status << endl;
+    //}
 }
 
 // LANJUT ANGGOTA 4 (SORTING & SEARCHING)
@@ -215,7 +287,7 @@ void urutkanBiayaAsc(Kegiatan daftar[], int jumlah) {
             }
         }
     }
-    cout << "berhasil diurutkan dari biaya termurah\n";
+    cout << "Berhasil diurutkan dari biaya termurah\n";
 }
 
 // 15. fungsi untuk mengurutkan biaya dari yang paling mahal (descending) menggunakan bubble sort
@@ -229,7 +301,7 @@ void urutkanBiayaDesc(Kegiatan daftar[], int jumlah) {
             }
         }
     }
-    cout << "berhasil diurutkan dari biaya termahal\n";
+    cout << "Berhasil diurutkan dari biaya termahal\n";
 }
 
 // 16. fungsi untuk mengurutkan sisa hari terdekat (ascending) menggunakan bubble sort
@@ -243,7 +315,7 @@ void urutkanSisaHariAsc(Kegiatan daftar[], int jumlah) {
             }
         }
     }
-    cout << "berhasil diurutkan dari sisa hari terdekat\n";
+    cout << "Berhasil diurutkan dari sisa hari terdekat\n";
 }
 
 // 17. fungsi untuk mengurutkan sisa hari terlama (descending) menggunakan bubble sort
@@ -257,13 +329,18 @@ void urutkanSisaHariDesc(Kegiatan daftar[], int jumlah) {
             }
         }
     }
-    cout << "berhasil diurutkan dari sisa hari terlama\n";
+    cout << "Berhasil diurutkan dari sisa hari terlama\n";
 }
 
 // 18. fungsi untuk cari rekomendasi kegiatan yang sesuai kategori pilihan pengguna dan tidak melebihi budget
 void cariKegiatan(Kegiatan daftar[], int jumlah) {
+    if (jumlah == 0) {
+        cout << "\nBelum ada data kegiatan yang tersimpan\n";
+        return;
+    }
+
     int budgetUser;
-    cout << "\n rekomendasi kegiatan \n";
+    cout << " === Rekomendasi Kegiatan \n";
     cout << "Masukkan batas budget kamu: Rp ";
     cin >> budgetUser;
 
@@ -274,14 +351,20 @@ void cariKegiatan(Kegiatan daftar[], int jumlah) {
     cout << "Masukkan pilihan (1-2): ";
     cin >> pilihCari;
 
-    cout << "\nID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  \n";
-
     // cari berdasarkan nama menggunakan sequential search
     if (pilihCari == 1) {
         string cariNama;
         cin.ignore(); 
         cout << "masukkan nama kegiatan yang dicari: ";
         getline(cin, cariNama);
+
+        cout << left
+         << setw(7) << "ID"
+         << setw(25) << "Nama Kegiatan"
+         << setw(15) << "Kategori"
+         << setw(10) << "Biaya"
+         << setw(10) << "Sisa Hari"
+         << setw(11) << "Status" << endl;
 
         bool ketemu = false;
         for (int i = 0; i < jumlah; i++) {
@@ -291,7 +374,7 @@ void cariKegiatan(Kegiatan daftar[], int jumlah) {
             }
         }
         if (ketemu == false) {
-            cout << "maaf, kegiatan tidak ditemukan atau melebihi budget\n";
+            cout << "Maaf, Kegiatan tidak ditemukan atau melebihi budget\n";
         }
     }
     
@@ -323,25 +406,37 @@ void cariBerdasarkanIdentitas(Kegiatan daftar[], int jumlah) {
     }
 
     int pilihCari;
-    cout << "\n cari berdasarkan ID, nama, atau kategori \n";
+    cout << "\n === Cari berdasarkan ID, Nama, atau Kategori \n";
     cout << "1. Cari Berdasarkan ID Kegiatan\n";
     cout << "2. Cari Berdasarkan Nama Kegiatan\n";
     cout << "3. Cari Berdasarkan Kategori\n";
-    cout << "pilih (1-3): ";
+    cout << "Pilih (1-3): ";
     cin >> pilihCari;
-
-    cout << "\nID \tNama \tKategori \tBiaya \tSisa Hari \tStatus  \n";
 
     if (pilihCari == 1) {
         string cariId;
         cout << "Masukkan ID kegiatan yang dicari (contoh: 01001): ";
         cin >> cariId;
 
+        cout << left
+         << setw(7) << "ID"
+         << setw(25) << "Nama Kegiatan"
+         << setw(15) << "Kategori"
+         << setw(10) << "Biaya"
+         << setw(10) << "Sisa Hari"
+         << setw(11) << "Status" << endl;
+        
         bool ketemu = false;
         for (int i = 0; i < jumlah; i++) {
             if (daftar[i].id == cariId) {
-                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
-                ketemu = true;
+                cout << left
+                     << setw(7) << daftar[i].id
+                     << setw(25) << daftar[i].nama
+                     << setw(15) << daftar[i].kategori
+                     << setw(10) << daftar[i].biaya
+                     << setw(10) << daftar[i].sisaHari
+                     << setw(11) << daftar[i].status << endl;
+            ketemu = true;
             }
         }
         if (!ketemu) cout << "Maaf, kegiatan dengan ID tersebut tidak ditemukan\n";
@@ -352,10 +447,24 @@ void cariBerdasarkanIdentitas(Kegiatan daftar[], int jumlah) {
         cout << "Masukkan nama kegiatan yang dicari: ";
         getline(cin, cariNama);
 
+        cout << left
+         << setw(7) << "ID"
+         << setw(25) << "Nama Kegiatan"
+         << setw(15) << "Kategori"
+         << setw(10) << "Biaya"
+         << setw(10) << "Sisa Hari"
+         << setw(11) << "Status" << endl;
+
         bool ketemu = false;
         for (int i = 0; i < jumlah; i++) {
             if (daftar[i].nama == cariNama) {
-                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+                cout << left
+                     << setw(7) << daftar[i].id
+                     << setw(25) << daftar[i].nama
+                     << setw(15) << daftar[i].kategori
+                     << setw(10) << daftar[i].biaya
+                     << setw(10) << daftar[i].sisaHari
+                     << setw(11) << daftar[i].status << endl;
                 ketemu = true;
             }
         }
@@ -366,10 +475,24 @@ void cariBerdasarkanIdentitas(Kegiatan daftar[], int jumlah) {
         cout << "Masukkan kategori yang dicari (seminar/kompetisi): ";
         cin >> cariKategori;
 
+        cout << left
+         << setw(7) << "ID"
+         << setw(25) << "Nama Kegiatan"
+         << setw(15) << "Kategori"
+         << setw(10) << "Biaya"
+         << setw(10) << "Sisa Hari"
+         << setw(11) << "Status" << endl;
+
         bool ketemu = false;
         for (int i = 0; i < jumlah; i++) {
             if (daftar[i].kategori == cariKategori) {
-                cout << daftar[i].id << "\t" << daftar[i].nama << "\t" << daftar[i].kategori << "\t" << daftar[i].biaya << "\t" << daftar[i].sisaHari << "\t\t" << daftar[i].status << endl;
+                cout << left
+                     << setw(7) << daftar[i].id
+                     << setw(25) << daftar[i].nama
+                     << setw(15) << daftar[i].kategori
+                     << setw(10) << daftar[i].biaya
+                     << setw(10) << daftar[i].sisaHari
+                     << setw(11) << daftar[i].status << endl;
                 ketemu = true;
             }
         }
@@ -386,7 +509,7 @@ void cariBerdasarkanBudget(Kegiatan daftar[], int jumlah) {
         return;
     }
     int budgetUser;
-    cout << "\n kegiatan berdasarkan budget pengguna \n";
+    cout << "\n Kegiatan berdasarkan budget pengguna \n";
     cout << "Masukkan batas maksimal budget kamu: Rp ";
     cin >> budgetUser;
 
@@ -405,10 +528,12 @@ void cariBerdasarkanBudget(Kegiatan daftar[], int jumlah) {
 
 void menuCariUtama(Kegiatan daftar[], int jumlah) {
     int pilihanMenuCari;
-    cout << "\n  MENU PENCARIAN \n";
-    cout << "1. cari Berdasarkan ID, Nama, atau Kategori\n";
-    cout << "2. cari berdasarkan Budget Pengguna\n";
-    cout << "3. rekomendasi kegiatan yang sesuai kategori pilihan pengguna dan tidak melebihi budget\n";
+    cout << string(78, '=') << endl;
+    cout << tengahkanTeks("PENCARIAN", 76) << endl;
+    cout << string(78, '=') << endl;
+    cout << "1. Cari Berdasarkan ID, Nama, atau Kategori\n";
+    cout << "2. Cari Berdasarkan Budget Pengguna\n";
+    cout << "3. Rekomendasi Kegiatan Berdasarkan Kategori dan Budget\n";
     cout << "Pilih menu (1-3): ";
     cin >> pilihanMenuCari;
 
@@ -437,6 +562,12 @@ void mainmenu(){
         cout << "0. Exit\n";
         cout << "==================================================\n";
         cout << "Pilih Menu: ";
+}
+
+void header(){
+    cout << "==================================================\n";
+    cout << "                 TAMBAH KEGIATAN                  \n";
+    cout << "==================================================\n";
 }
 
 void clearTerminal() {
@@ -479,6 +610,7 @@ int main() {
 
             case 1:
                 clearTerminal();
+                header();
                 tambahKegiatan(daftar, jumlah);    
                 IDGenerator(daftar, seminar, kompetisi, jumlah);
                 cekStatus(daftar, jumlah);
