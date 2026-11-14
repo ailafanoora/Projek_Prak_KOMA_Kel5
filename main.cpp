@@ -180,7 +180,7 @@ void tambahDiikuti(Kegiatan daftar[], Kegiatan daftarDiikuti[], int &jumlahDiiku
         cout << "Masukkan ID kegiatan ke-" << i+1 << " : ";
         cin >> IDdiikuti;
         bool IDsesuai = cekIDdiikuti(daftar, daftarDiikuti, jumlahDiikuti, jumlah, IDdiikuti, i);
-        if (IDsesuai = false) {
+        if (IDsesuai == false) {
             cout << "Tidak ditemukan kegiatan dengan ID: " << IDdiikuti << endl;
             cout << "Harap ulangi lagi." << endl;
             cout << "Masukkan ID kegiatan ke-" << i+1 << " : ";
